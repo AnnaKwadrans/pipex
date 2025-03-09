@@ -3,13 +3,7 @@
 #include <fcntl.h>
 #include <stdio.h>
 
-char	**parse_commands(char *str)
-{
-	char	**cmds;
 
-	cmds = ft_split(str, ' ');
-	return (cmds);
-}
 
 
 int	main(int argc, char **argv, char **envp)
@@ -21,6 +15,7 @@ int	main(int argc, char **argv, char **envp)
 	char	*cmds1[] = {"ls", NULL};
 	char	*cmds2[] = {"wc", "-l", NULL};
 
+	//print_array(envp);
 	infile_fd = open("infile", O_RDONLY);
 	outfile_fd = open("outfile", O_WRONLY | O_CREAT, 0644);
 
@@ -45,7 +40,9 @@ int	main(int argc, char **argv, char **envp)
 		dup2(fds[1], 1);
 		close(fds[0]);
 		close(fds[1]);
-		execve("grep", "fil", envp);
+		//execve("grep", "fil", envp);
+		exec("grep Aug", envp);
+		printf("child check\n");
 	}
 	else if (pid > 0) // parent
 	{
@@ -55,7 +52,9 @@ int	main(int argc, char **argv, char **envp)
 		dup2(outfile_fd, 1);
 		close(fds[0]);
 		close(fds[1]);
-		execve("sort", "NULL", envp);
+		//execve("sort", "NULL", envp);
+		exec("sort", envp);
+		printf("parent check\n");
 	}
 	//free_array(cmds1);
 	//free_array(cmds2);
