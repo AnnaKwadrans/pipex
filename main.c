@@ -41,7 +41,7 @@ int	main(int argc, char **argv, char **envp)
 		close(fds[0]);
 		close(fds[1]);
 		//execve("grep", "fil", envp);
-		exec("grep Aug", envp);
+		exec_cmd("grep file", envp);
 		printf("child check\n");
 	}
 	else if (pid > 0) // parent
@@ -53,7 +53,7 @@ int	main(int argc, char **argv, char **envp)
 		close(fds[0]);
 		close(fds[1]);
 		//execve("sort", "NULL", envp);
-		exec("sort", envp);
+		exec_cmd("sort", envp);
 		printf("parent check\n");
 	}
 	//free_array(cmds1);

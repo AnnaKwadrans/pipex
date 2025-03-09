@@ -67,11 +67,11 @@ char	*get_path(char *cmd, char **envp)
 	i = 0;
 	while (paths_array[i] != NULL)
 	{
-		ft_printf("%s\n", paths_array[i]);
+		//ft_printf("%s\n", paths_array[i]);
 		aux = ft_strjoin(paths_array[i], "/");
-		ft_printf("chk %d: %s\n", i, aux);
+		//ft_printf("chk %d: %s\n", i, aux);
 		path = ft_strjoin(aux, cmd);
-		ft_printf("chk %d: %s\n", i, path);
+		//ft_printf("chk %d: %s\n", i, path);
 		free(aux);
 		if (access(path, F_OK) == 0)
 		{
@@ -85,18 +85,12 @@ char	*get_path(char *cmd, char **envp)
 	return (NULL);
 }
 
-void	exec(char *cmd, char **env)
+void	exec_cmd(char *cmd, char **env)
 {
-	char	**s_cmd;
+	char	**cmds_array;
 	char	*path;
 
-	s_cmd = ft_split(cmd, ' ');
-	path = get_path(s_cmd[0], env);
-	if (execve(path, s_cmd, env) == -1)
-	{
-		ft_putstr_fd("pipex: command not found: ", 2);
-		ft_putendl_fd(s_cmd[0], 2);
-		ft_free_tab(s_cmd);
-		exit(0);
-	}
+	cmds_array = ft_split(cmd, ' ');
+	path = get_path(cmds_array[0], env);
+	execve(path, cmds_array, env);
 }
