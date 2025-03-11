@@ -1,51 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/11 20:32:02 by akwadran          #+#    #+#             */
+/*   Updated: 2025/03/11 20:45:25 by akwadran         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 
-void    print_array(char **env)
-{
-    int i;
-
-    i = 0;
-    while (env[i])
-    {
-        ft_printf("%s\n", env[i]);
-        i++;
-    }
-	free(env);
-}
-
-void    free_array(char **str)
-{
-    int i;
-
-    i = 0;
-    while (str[i])
-    {
-		free(str[i]);
-        i++;
-    }
-	free(str);
-}
-
-
-char	**parse_commands(char *str)
-{
-	char	**cmds;
-
-	cmds = ft_split(str, ' ');
-	return (cmds);
-}
-
-char	**parse_path_var(char **env)
+char	**parse_path_var(char **envp)
 {
 	int		i;
 	char	**paths;
 
 	i = 0;
-	while (env[i])
+	while (envp[i])
 	{
-		if (strncmp(env[i], "PATH=", 5) == 0 && env[i][5])
+		if (strncmp(envp[i], "PATH=", 5) == 0 && envp[i][5])
 		{
-			paths = ft_split(env[i] + 5, ':');
+			paths = ft_split(envp[i] + 5, ':');
 			if (paths)
 				return (paths);
 		}
@@ -54,24 +31,19 @@ char	**parse_path_var(char **env)
 	return (NULL);
 }
 
-char	*get_path(char *cmd, char **envp)
+char	*get_path(char *cmd, char **paths_array)
 {
-	char	**paths_array;
 	int		i;
 	char	*aux;
 	char	*path;
 
-	paths_array = parse_path_var(envp);
 	if (paths_array == NULL)
 		return (NULL);
 	i = 0;
 	while (paths_array[i] != NULL)
 	{
-		//ft_printf("%s\n", paths_array[i]);
 		aux = ft_strjoin(paths_array[i], "/");
-		//ft_printf("chk %d: %s\n", i, aux);
 		path = ft_strjoin(aux, cmd);
-		//ft_printf("chk %d: %s\n", i, path);
 		free(aux);
 		if (access(path, F_OK) == 0)
 		{
@@ -85,12 +57,15 @@ char	*get_path(char *cmd, char **envp)
 	return (NULL);
 }
 
-void	exec_cmd(char *cmd, char **env)
+void	free_array(char **str)
 {
-	char	**cmds_array;
-	char	*path;
+	int	i;
 
-	cmds_array = ft_split(cmd, ' ');
-	path = get_path(cmds_array[0], env);
-	execve(path, cmds_array, env);
+	i = 0;
+	while (str[i])
+	{
+		free(str[i]);
+		i++;
+	}
+	free(str);
 }

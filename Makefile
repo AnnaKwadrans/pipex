@@ -9,6 +9,9 @@ SRC = main.c pipex_utils.c
 
 OBJ = $(SRC:.c=.o)
 
+%.o: %.c pipex.h
+	$(CC) -I$(LIBFT_DIR) -c $< -o $@
+
 $(NAME): $(OBJ)
 	make -C libft
 	$(CC) $(FLAGS) $(OBJ) -o $(NAME) -Llibft -lft

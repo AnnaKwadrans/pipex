@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/11 20:32:35 by akwadran          #+#    #+#             */
+/*   Updated: 2025/03/11 20:45:46 by akwadran         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PIPEX_H
 # define PIPEX_H
 # include <stdlib.h>
@@ -7,24 +19,12 @@
 # include <fcntl.h>
 # include <string.h>
 
+void	child_process(int in_fd, int pipe_fds[2], char *cmd, char **envp);
+void	parent_process(int out_fd, int pipe_fds[2], char *cmd, char **envp);
+void	exec_cmd(char *cmd, char **envp);
 
-char	**ft_split(char const *s, char c);
-void	*ft_calloc(size_t nmemb, size_t size);
-size_t	ft_strlen(const char *s);
-void	ft_bzero(void *s, size_t n);
-size_t	ft_strlcpy(char *dst, const char *src, size_t size);
-void    free_array(char **str);
-void    print_array(char **env);
-
-char	**parse_path_var(char **env);
-char	*get_path(char *cmd, char **envp);
-
-
-void	exec(char *cmd, char **env);
-char	*my_getenv(char *name, char **env);
-
-void	exit_handler(int n_exit);
-int	open_file(char *file, int in_or_out);
-void	ft_free_tab(char **tab);
+char	**parse_path_var(char **envp);
+char	*get_path(char *cmd, char **paths_array);
+void	free_array(char **str);
 
 #endif
