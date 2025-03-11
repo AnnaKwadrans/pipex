@@ -6,12 +6,13 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 20:31:05 by akwadran          #+#    #+#             */
-/*   Updated: 2025/03/11 20:44:28 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/03/11 21:34:54 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+//unlink, wait, waitpid
 int	main(int argc, char **argv, char **envp)
 {
 	int		in_fd;
@@ -22,7 +23,7 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 5)
 		return (ft_printf("Error: incorrect agruments\n"), 1);
 	in_fd = open(argv[1], O_RDONLY);
-	out_fd = open(argv[4], O_WRONLY | O_CREAT, 0644);
+	out_fd = open(argv[4], O_WRONLY | O_CREAT);
 	if (pipe(pipe_fds) < 0)
 		return (perror("Pipe failed"), 1);
 	pid = fork();
@@ -32,6 +33,8 @@ int	main(int argc, char **argv, char **envp)
 		child_process(in_fd, pipe_fds, argv[2], envp);
 	else if (pid > 0)
 		parent_process(out_fd, pipe_fds, argv[3], envp);
+	close(in_fd);
+	close(out_fd);
 	return (0);
 }
 

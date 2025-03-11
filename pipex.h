@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 20:32:35 by akwadran          #+#    #+#             */
-/*   Updated: 2025/03/11 20:45:46 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/03/11 20:59:11 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <string.h>
+# include "libft/libft.h"
 
 void	child_process(int in_fd, int pipe_fds[2], char *cmd, char **envp);
 void	parent_process(int out_fd, int pipe_fds[2], char *cmd, char **envp);
