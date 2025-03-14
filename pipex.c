@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 15:57:42 by akwadran          #+#    #+#             */
-/*   Updated: 2025/03/01 17:37:45 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/03/14 18:01:39 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int	main(int argc, char **argv)
 		printf("%d", errno);
 		return (1);
 	}
-
 	infile_fd = open(argv[1], O_RDONLY);
 	outfile_fd = open(argv[2], O_WRONLY);
 	if (infile_fd == -1 || outfile_fd == -1)

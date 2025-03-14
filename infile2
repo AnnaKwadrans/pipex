@@ -1,3 +1,10 @@
+infile
+libft
+main.c
+main.o
+Makefile
+out
+outfile
 pipex
 pipex.c
 pipex.h
@@ -5,3 +12,4 @@ pipex_utils.c
 pipex_utils.o
 pruebas.c
 pruebas_funciones
+tests.c
