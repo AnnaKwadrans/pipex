@@ -1,0 +1,10 @@
+42_pipex_tester 
+libft
+main.o
+pipex
+pipex_utils.c
+if
+main.c  
+Makefile  
+pipex.h 
+pipex_utils.o

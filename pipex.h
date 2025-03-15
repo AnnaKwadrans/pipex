@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 20:32:35 by akwadran          #+#    #+#             */
-/*   Updated: 2025/03/14 21:33:08 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/03/15 16:18:13 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <string.h>
 # include "libft/libft.h"
 # include <sys/wait.h>
-# include <stdio.h>
 # include <stdbool.h>
 
 # define IN 0
@@ -38,6 +37,5 @@ void	exec_cmd(char *cmd, char **envp);
 char	**parse_path_var(char **envp);
 char	*get_path(char **cmds_array, char **paths_array);
 void	free_array(char **str);
-void	print_array(char **str);
 
 #endif
