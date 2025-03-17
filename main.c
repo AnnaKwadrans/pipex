@@ -11,11 +11,10 @@
 /* ************************************************************************** */
 
 #include "pipex.h"
+#include <stdio.h>
 
 int	main(int argc, char **argv, char **envp)
 {
-	int		in_fd;
-	int		out_fd;
 	int		pipe_fds[2];
 	int		files_fds[2];
 	pid_t	pid1;
@@ -33,10 +32,7 @@ int	main(int argc, char **argv, char **envp)
 	else if (pid1 == 0)
 		child(files_fds, pipe_fds, argv[2], envp);
 	else if (pid1 > 0)
-	{
-		pid2 = fork();
 		parent(files_fds, pipe_fds, argv[3], envp);
-	}
 	return (0);
 }
 
@@ -64,7 +60,7 @@ int	open_outfile(char *outfile)
 		perror("Cannot access outfile");
 		return (-1);
 	}
-	fd = open(outfile, O_WRONLY | O_CREAT, 0666);
+	fd = open(outfile, O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	if (fd == -1)
 		perror("Open failed");
 	return (fd);
@@ -72,13 +68,22 @@ int	open_outfile(char *outfile)
 
 void	child(int files_fds[2], int pipe_fds[2], char *cmd, char **envp)
 {
-	close(pipe_fds[RD]);
-	close(files_fds[OUT]);
-	dup2(files_fds[IN], STDIN_FILENO);
-	close(files_fds[IN]);
-	dup2(pipe_fds[WR], STDOUT_FILENO);
-	close(pipe_fds[WR]);
-	exec_cmd(cmd, envp);
+	if (files_fds[IN] < 0)
+	{
+		close(pipe_fds[RD]);
+		close(files_fds[OUT]);
+		close(pipe_fds[WR]);
+	}
+	else
+	{
+		close(pipe_fds[RD]);
+		close(files_fds[OUT]);
+		dup2(files_fds[IN], STDIN_FILENO);
+		close(files_fds[IN]);
+		dup2(pipe_fds[WR], STDOUT_FILENO);
+		close(pipe_fds[WR]);
+		exec_cmd(cmd, envp);
+	}
 }
 
 void	parent(int files_fds[2], int pipe_fds[2], char *cmd, char **envp)
@@ -90,5 +95,5 @@ void	parent(int files_fds[2], int pipe_fds[2], char *cmd, char **envp)
 	close(pipe_fds[RD]);
 	dup2(files_fds[OUT], STDOUT_FILENO);
 	close(files_fds[OUT]);
-	exec_cmd(cmd, envp);
+	exec_cmd(cmd, envp);	
 }
