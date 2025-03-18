@@ -34,6 +34,7 @@ void	exec_cmd(char *cmd, char **envp)
 	{
 		free_array(cmds_array);
 		ft_putendl_fd("Command not found", 2);
+		exit(127);
 	}
 }
 
@@ -62,7 +63,7 @@ char	*get_path(char **cmds_array, char **paths_array)
 	char	*aux;
 	char	*path;
 
-	if (paths_array == NULL || cmds_array == NULL)
+	if (paths_array == NULL || cmds_array == NULL || !cmds_array[0])
 		return (NULL);
 	i = 0;
 	while (paths_array[i] != NULL)

@@ -73,6 +73,7 @@ void	child(int files_fds[2], int pipe_fds[2], char *cmd, char **envp)
 		close(pipe_fds[RD]);
 		close(files_fds[OUT]);
 		close(pipe_fds[WR]);
+		exit(1);
 	}
 	else
 	{
@@ -83,17 +84,26 @@ void	child(int files_fds[2], int pipe_fds[2], char *cmd, char **envp)
 		dup2(pipe_fds[WR], STDOUT_FILENO);
 		close(pipe_fds[WR]);
 		exec_cmd(cmd, envp);
+		exit(1);
 	}
 }
 
 void	parent(int files_fds[2], int pipe_fds[2], char *cmd, char **envp)
 {
 	wait(NULL);
+	if (files_fds[OUT] < 0)
+	{
+		close(pipe_fds[RD]);
+		close(files_fds[IN]);
+		close(pipe_fds[WR]);
+		exit(1);
+	}
 	close(pipe_fds[WR]);
 	close(files_fds[IN]);
 	dup2(pipe_fds[RD], STDIN_FILENO);
 	close(pipe_fds[RD]);
 	dup2(files_fds[OUT], STDOUT_FILENO);
 	close(files_fds[OUT]);
-	exec_cmd(cmd, envp);	
+	exec_cmd(cmd, envp);
+	exit(1);	
 }
