@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 20:32:35 by akwadran          #+#    #+#             */
-/*   Updated: 2025/03/15 16:18:13 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/03/22 11:54:05 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	parent(int files_fds[2], int pipe_fds[2], char *cmd, char **envp);
 
 void	exec_cmd(char *cmd, char **envp);
 char	**parse_path_var(char **envp);
-char	*get_path(char **cmds_array, char **paths_array);
+char	*get_path(char **cmd_tab, char **path_tab);
 void	free_array(char **str);
 
 #endif

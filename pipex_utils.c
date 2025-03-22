@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 20:32:02 by akwadran          #+#    #+#             */
-/*   Updated: 2025/03/15 17:48:17 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/03/22 11:53:34 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,25 @@
 
 void	exec_cmd(char *cmd, char **envp)
 {
-	char	**cmds_array;
-	char	**paths_array;
+	char	**cmd_tab;
+	char	**path_tab;
 	char	*path;
 
-	cmds_array = ft_split(cmd, ' ');
-	paths_array = parse_path_var(envp);
-	path = get_path(cmds_array, paths_array);
-	if (paths_array)
-		free_array(paths_array);
+	cmd_tab = ft_split(cmd, ' ');
+	path_tab = parse_path_var(envp);
+	path = get_path(cmd_tab, path_tab);
+	if (path_tab)
+		free_array(path_tab);
 	if (path)
 	{
-		execve(path, cmds_array, envp);
+		execve(path, cmd_tab, envp);
 		free(path);
-		free_array(cmds_array);
+		free_array(cmd_tab);
 		return (perror("Execve failed"));
 	}
 	else
 	{
-		free_array(cmds_array);
+		free_array(cmd_tab);
 		ft_putendl_fd("Command not found", 2);
 		exit(127);
 	}
@@ -41,39 +41,43 @@ void	exec_cmd(char *cmd, char **envp)
 char	**parse_path_var(char **envp)
 {
 	int		i;
-	char	**paths_array;
+	char	**path_tab;
 
+	if (envp == NULL)
+		return (NULL);
 	i = 0;
 	while (envp[i])
 	{
 		if (strncmp(envp[i], "PATH=", 5) == 0 && envp[i][5])
 		{
-			paths_array = ft_split(envp[i] + 5, ':');
-			if (paths_array)
-				return (paths_array);
+			path_tab = ft_split(envp[i] + 5, ':');
+			if (path_tab)
+				return (path_tab);
 		}
 		i++;
 	}
 	return (NULL);
 }
 
-char	*get_path(char **cmds_array, char **paths_array)
+char	*get_path(char **cmd_tab, char **path_tab)
 {
 	int		i;
 	char	*aux;
 	char	*path;
 
-	if (paths_array == NULL || cmds_array == NULL || !cmds_array[0])
+	if (path_tab == NULL || cmd_tab == NULL)
 		return (NULL);
+	if (!cmd_tab[0])
+		cmd_tab[0] = ft_strdup("cat");
 	i = 0;
-	while (paths_array[i] != NULL)
+	while (path_tab[i] != NULL)
 	{
-		if (ft_strncmp(cmds_array[0], paths_array[i], ft_strlen(paths_array[i])) == 0)
-			path = ft_strdup(cmds_array[0]);
+		if (ft_strncmp(cmd_tab[0], path_tab[i], ft_strlen(path_tab[i])) == 0)
+			path = ft_strdup(cmd_tab[0]);
 		else
 		{
-			aux = ft_strjoin(paths_array[i], "/");
-			path = ft_strjoin(aux, cmds_array[0]);
+			aux = ft_strjoin(path_tab[i], "/");
+			path = ft_strjoin(aux, cmd_tab[0]);
 			free(aux);
 		}
 		if (access(path, X_OK) == 0)

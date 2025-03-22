@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 20:31:05 by akwadran          #+#    #+#             */
-/*   Updated: 2025/03/15 19:11:01 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/03/22 11:13:49 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,5 +105,5 @@ void	parent(int files_fds[2], int pipe_fds[2], char *cmd, char **envp)
 	dup2(files_fds[OUT], STDOUT_FILENO);
 	close(files_fds[OUT]);
 	exec_cmd(cmd, envp);
-	exit(1);	
+	exit(1);
 }
